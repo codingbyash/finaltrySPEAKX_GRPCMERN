@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package question;
+
+// The Question message defines the structure of a question in the database.
+message Question {
+  string id = 1;                 // Unique identifier for the question
+  string title = 2;              // Title of the question
+  string type = 3;               // Type of the question (e.g., MCQ, Essay, etc.)
+}
+
+// The SearchRequest message is used to send a search query.
+message SearchRequest {
+  string query = 1;              // The search query string
+  int32 page = 2;                // The page number for pagination
+  int32 page_size = 3;           // The number of results per page
+}
+
+// The SearchResponse message contains the search results.
+message SearchResponse {
+  repeated Question results = 1; // List of questions matching the query
+  int32 total_results = 2;       // Total number of matching results
+  int32 current_page = 3;        // Current page number
+  int32 total_pages = 4;         // Total number of pages
+}
+
+// The QuestionService defines the gRPC service for managing questions.
+service QuestionService {
+  // Search for questions based on a query.
+  rpc SearchQuestions (SearchRequest) returns (SearchResponse);
+}
